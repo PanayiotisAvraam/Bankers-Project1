@@ -2,6 +2,10 @@
 //
 
 #include <iostream>
+#include "Banker.h"
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main()
