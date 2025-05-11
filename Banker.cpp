@@ -1,7 +1,4 @@
-#include "Banker.h"
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
+#include "banker.h"
+#include <cassert> // For assert function
 
 using namespace std;
