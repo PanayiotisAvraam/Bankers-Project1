@@ -27,6 +27,45 @@ bool SystemState::LTE(const vector<int>& vec1, const vector<int>& vec2) const {
     return true;
 }
 
+/**
+ * @brief Determines if the system is in a safe state and provides the safe sequence.
+ * @param allocation The current allocation matrix.
+ * @param available The current available vector.
+ * @param need The current need matrix.
+ * @return A vector containing the safe sequence if the system is safe, or an empty vector if not.
+ */
+
+vector<int> SystemState::safe(const vector<vector<int>>& allocation,
+    const vector<int>& available,
+    const vector<vector<int>>& need) const {
+    vector<int> thread_sequence; // Stores the safe sequence of threads
+    vector<int> work = available; // Work vector, initially equal to available resources
+    vector<int> finish(n, 0); // Finish vector to track completed threads (0 = false, 1 = true)
+    int completed = 0; // Counter for completed threads
+
+    while (completed < n) {
+        bool found = false;
+        for (int i = 0; i < n; i++) {
+            // Find a thread that can proceed
+            if (!finish[i] && LTE(need[i], work)) {
+                // Allocate resources to this thread
+                for (int j = 0; j < m; j++) {
+                    work[j] += allocation[i][j];
+                }
+                finish[i] = 1; // Mark thread as finished
+                thread_sequence.push_back(i); // Add thread to safe sequence
+                completed++;
+                found = true;
+                break;
+            }
+        }
+        if (!found) break; // No thread can proceed, exit loop
+    }
+
+    // If all threads are completed, return the safe sequence; otherwise, return an empty vector
+    return (completed == n) ? thread_sequence : vector<int>();
+}
+
 
 
 
