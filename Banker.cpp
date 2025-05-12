@@ -226,6 +226,60 @@ void SystemState::releaseResources(const vector<int>& release, const int Ti) {
     cout << "Resources released successfully" << endl;
 }
 
+/**
+ * @brief Interactive menu for user operations on the system.
+ */
+void SystemState::menu() {
+    while (true) {
+        cout << "Choose operation by number: " << endl;
+        cout << "0 : Check if system is in safe state" << endl;
+        cout << "1 : Check if request can be granted" << endl;
+        cout << "2 : Release resources" << endl;
+        cout << "3 : Display system state" << endl;
+        cout << "4 : Exit" << endl;
+
+        int choice;
+        cin >> choice;
+
+        if (choice == 0) {
+            isSafeState();
+        }
+        else if (choice == 1) {
+            cout << "Enter the request vector: ";
+            vector<int> request(m);
+            for (int i = 0; i < m; i++) {
+                cin >> request[i];
+            }
+            cout << "Enter the thread index: ";
+            int Ti;
+            cin >> Ti;
+            resourceRequest(request, Ti);
+        }
+        else if (choice == 2) {
+            cout << "Enter the release vector: ";
+            vector<int> release(m);
+            for (int i = 0; i < m; i++) {
+                cin >> release[i];
+            }
+            cout << "Enter the thread index: ";
+            int Ti;
+            cin >> Ti;
+            releaseResources(release, Ti);
+        }
+        else if (choice == 3) {
+            displayState();
+        }
+        else if (choice == 4) {
+            cout << "Exiting" << endl;
+            break;
+        }
+        else {
+            cout << "Wrong input" << endl;
+        }
+    }
+}
+
+
 
 
 
