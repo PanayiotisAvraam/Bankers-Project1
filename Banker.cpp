@@ -159,6 +159,47 @@ void SystemState::isSafeState() const {
     }
 }
 
+/**
+ * @brief Handles a resource request from a thread.
+ * @param request The resource request vector.
+ * @param Ti The thread index making the request.
+ */
+void SystemState::resourceRequest(const vector<int>& request, const int Ti) {
+    assert(Ti >= 0 && Ti < n); // Ensure thread index is valid
+    assert(request.size() == m); // Ensure request vector is of correct size
+
+    if (!LTE(request, need[Ti])) {
+        cout << "Thread exceeded Maximum claim" << endl;
+        return;
+    }
+    if (!LTE(request, available)) {
+        cout << "No, Thread must wait" << endl;
+        return;
+    }
+
+    // Simulate resource allocation to test safety
+    vector<int> av_temp = available;
+    vector<vector<int>> allo_temp = allocation;
+    vector<vector<int>> need_temp = need;
+
+    for (int i = 0; i < m; i++) {
+        av_temp[i] -= request[i];
+        allo_temp[Ti][i] += request[i];
+        need_temp[Ti][i] -= request[i];
+    }
+
+    // Check if the system is still in a safe state
+    if (!safe(allo_temp, av_temp, need_temp).empty()) {
+        available = av_temp;
+        allocation = allo_temp;
+        need = need_temp;
+        cout << "Yes, request can be granted with safe state" << endl;
+    }
+    else {
+        cout << "No, Thread must wait" << endl;
+    }
+}
+
 
 
 
