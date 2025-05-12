@@ -106,6 +106,59 @@ void SystemState::inputState() {
     displayState();
 }
 
+/**
+ * @brief Displays the current state of the system, including all matrices and vectors.
+ */
+void SystemState::displayState() const {
+    cout << "Available Vector:" << endl;
+    for (const int& val : available) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    cout << "MAX Matrix:" << endl;
+    for (const auto& row : MAX) {
+        for (const int& val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    cout << "Allocation Matrix:" << endl;
+    for (const auto& row : allocation) {
+        for (const int& val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    cout << "Need Matrix:" << endl;
+    for (const auto& row : need) {
+        for (const int& val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+}
+
+/**
+ * @brief Checks if the system is in a safe state and prints the result.
+ */
+void SystemState::isSafeState() const {
+    vector<int> threads = safe(allocation, available, need);
+    if (!threads.empty()) {
+        cout << "Yes, safe state <";
+        for (size_t i = 0; i < threads.size(); i++) {
+            cout << "P" << threads[i];
+            if (i != threads.size() - 1) cout << ",";
+        }
+        cout << ">" << endl;
+    }
+    else {
+        cout << "No, system is not in a safe state" << endl;
+    }
+}
+
 
 
 
