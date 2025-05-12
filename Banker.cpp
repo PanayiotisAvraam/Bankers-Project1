@@ -200,6 +200,32 @@ void SystemState::resourceRequest(const vector<int>& request, const int Ti) {
     }
 }
 
+/**
+ * @brief Handles the release of resources by a thread.
+ * @param release The resource release vector.
+ * @param Ti The thread index releasing the resources.
+ */
+void SystemState::releaseResources(const vector<int>& release, const int Ti) {
+    assert(Ti >= 0 && Ti < n); // Ensure thread index is valid
+    assert(release.size() == m); // Ensure release vector is of correct size
+
+    for (int i = 0; i < m; i++) {
+        if (release[i] > allocation[Ti][i]) {
+            cout << "Error: Thread cannot release more resources than it has allocated" << endl;
+            return;
+        }
+    }
+
+    // Update the system state
+    for (int i = 0; i < m; i++) {
+        available[i] += release[i];
+        allocation[Ti][i] -= release[i];
+        need[Ti][i] += release[i];
+    }
+
+    cout << "Resources released successfully" << endl;
+}
+
 
 
 
