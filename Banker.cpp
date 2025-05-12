@@ -66,6 +66,46 @@ vector<int> SystemState::safe(const vector<vector<int>>& allocation,
     return (completed == n) ? thread_sequence : vector<int>();
 }
 
+/**
+ * @brief Inputs the initial state of the system from the user.
+ */
+
+void SystemState::inputState() {
+    cout << "Enter the available vector: ";
+    available.resize(m);
+    for (int i = 0; i < m; i++) {
+        cin >> available[i];
+    }
+
+    cout << "Enter MAX matrix:" << endl;
+    MAX.resize(n, vector<int>(m));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> MAX[i][j];
+        }
+    }
+
+    cout << "Enter Allocation matrix:" << endl;
+    allocation.resize(n, vector<int>(m));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> allocation[i][j];
+        }
+    }
+
+    // Calculate the Need matrix
+    need.resize(n, vector<int>(m));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            need[i][j] = MAX[i][j] - allocation[i][j];
+            assert(need[i][j] >= 0); // Ensure Need values are non-negative
+        }
+    }
+
+    // Display the initial state
+    displayState();
+}
+
 
 
 
